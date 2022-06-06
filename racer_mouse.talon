@@ -97,11 +97,11 @@ touch:
 
 <user.prose>: skip()
 
-action(user.noise_hiss_start):
-	user.racer_gas_toggle()
-	user.racer_turn_start()
-action(user.noise_hiss_stop): 
-	user.racer_turn_stop()
-	user.racer_gas_toggle()
+#action(user.noise_hiss_start):
+#	user.racer_gas_toggle()
+#	user.racer_turn_start()
+#action(user.noise_hiss_stop): 
+#	user.racer_turn_stop()
+#	user.racer_gas_toggle()
 
 #action(user.noise_pop): user.racer_gas_toggle()

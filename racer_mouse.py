@@ -59,7 +59,6 @@ ctx.lists["self.point_of_compass"] = {
         } 
 
 
-
 def racer_tick_cb():
     global racer_position
     global racer_angle
@@ -67,8 +66,9 @@ def racer_tick_cb():
     global racer_turning
     global racer_turns_cw
     global is_dragging
+    global turning_radius
 
-    racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
+    #racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
 
     if racer_random_mode:
         if racer_turning == False and randrange(0, 1000) < 10:
@@ -92,34 +92,42 @@ def racer_tick_cb():
             if racer_turns_cw >= 0:
                 racer_turns_cw = True
 
-    if racer_speed > 0.0 or racer_turning:
-        racer_position += Point2d(cos(racer_angle), sin(racer_angle)) * racer_speed * 5
+    if racer_speed > 0.0 and racer_turning is False:
+        racer_position += Point2d(cos(racer_angle), sin(racer_angle)) * racer_speed  #This line is the line responsible for drawing butts.  
         racer_canvas.move(racer_position.x, racer_position.y)
-        ctrl.mouse_move(racer_position.x+2500, racer_position.y+2500)
-        if racer_turning and racer_turn_start_time < time.time() - 0.1:
-            if racer_turns_cw:
-                racer_angle -= 20*racer_speed/(2*pi*turning_radius)
-                #racer_angle -= 0.07
-            else:
-                racer_angle += 20*racer_speed/(2*pi*turning_radius)
-                #racer_angle += 0.07
-        racer_canvas.show()
+        ctrl.mouse_move(racer_position.x + 2500, racer_position.y + 2500)
+    
+    if racer_turning and racer_turn_start_time < time.time() - 0.1:
+        x = turning_radius*cos(pi/2 + racer_angle) + turning_radius*cos(racer_speed/turning_radius-pi/2+racer_angle)
+        y = turning_radius*sin(pi/2 + racer_angle) + turning_radius*sin(racer_speed/turning_radius-pi/2+racer_angle)
+        print(x)
+        print(y)
+        racer_position = Point2d(racer_position.x + x, racer_position.y + y)
+        racer_canvas.move(racer_position.x, racer_position.y)
+        ctrl.mouse_move(racer_position.x + 2500, racer_position.y + 2500)
+        if racer_turns_cw:
+            racer_angle -=  racer_speed / turning_radius
+            #racer_angle -= .1 # This is in radians.
+        else:
+            racer_angle +=  racer_speed / turning_radius
+            #racer_angle += .1 # This is in radians. 
+        
+    racer_canvas.show()
 
-
-        if racer_position.x + 2500 < 0:
-            racer_angle = vertical_edge_change_angle(racer_angle, True)
-            racer_position.x = -2500 # avoid geting stuck at edge
-        if racer_position.x + 2500 >= ui.screens()[0].rect.width:
-            racer_angle = vertical_edge_change_angle(racer_angle, False)
-            racer_position.x = ui.screens()[0].rect.width - 1 - 2500
-        if racer_position.y + 2500 < 0:
-            racer_angle = horizontal_edge_change_angle(racer_angle, True)
-            racer_position.y =  -2500 #avoid getting stuck at the edge
-        if racer_position.y + 2500  >= ui.screens()[0].rect.height: 
-            racer_angle = horizontal_edge_change_angle(racer_angle, False)
-            racer_position.y = ui.screens()[0].rect.height - 1 - 2500 
-        if is_dragging:
-            actions.mouse_drag(0) 
+    if racer_position.x + 2500 < 0:
+        racer_angle = vertical_edge_change_angle(racer_angle, True)
+        racer_position.x = -2500 # avoid geting stuck at edge
+    if racer_position.x + 2500 >= ui.screens()[0].rect.width:
+        racer_angle = vertical_edge_change_angle(racer_angle, False)
+        racer_position.x = ui.screens()[0].rect.width - 1 - 2500
+    if racer_position.y + 2500 < 0:
+        racer_angle = horizontal_edge_change_angle(racer_angle, True)
+        racer_position.y =  -2500 #avoid getting stuck at the edge
+    if racer_position.y + 2500  >= ui.screens()[0].rect.height: 
+        racer_angle = horizontal_edge_change_angle(racer_angle, False)
+        racer_position.y = ui.screens()[0].rect.height - 1 - 2500 
+    if is_dragging:
+        actions.mouse_drag(0) 
 
     if last_input_time + 45 < time.time():
         if racer_random_mode:
@@ -213,8 +221,8 @@ def racer_canvas_draw(canvas):
     canvas.paint.textsize=20
     canvas.paint.text_align = 'center'
     for x in range(50):
-        canvas.draw_line(100*x*cos(racer_angle), 100*x*sin(racer_angle), 100*x*cos(racer_angle)-50*sin(racer_angle), 100*x*sin(racer_angle)+50*cos(racer_angle))
-        canvas.draw_text(str(x), 100*x*cos(racer_angle)-60*sin(racer_angle), 100*x*sin(racer_angle)+60*cos(racer_angle))
+        canvas.draw_line(100*x*cos(racer_angle), 100*x*sin(racer_angle), 100*x*cos(racer_angle)-50*sin(racer_angle), 100*x*sin(racer_angle) + 50*cos(racer_angle))
+        canvas.draw_text(str(x), 100*x*cos(racer_angle)-60*sin(racer_angle), 100*x*sin(racer_angle) + 60*cos(racer_angle))
 
     paint.color = "ffff00ff"
     canvas.draw_line(0,0, -5000*cos(racer_angle), -5000*sin(racer_angle))
@@ -265,7 +273,6 @@ class RacerActions:
         global racer_position
         global racer_tick_job
         global racer_speed
-        
 
 
         had_input()
@@ -368,7 +375,7 @@ class RacerActions:
         global racer_speed
         global racer_position
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-        racer_speed = 1.0
+        racer_speed = 5.0
 
 
     def racer_brakes():
@@ -385,7 +392,7 @@ class RacerActions:
         had_input()
         if racer_speed == 0.0:
             racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-            racer_speed = 1.0
+            racer_speed = 5.0
         else:
             racer_speed = 0.0
 
@@ -394,11 +401,11 @@ class RacerActions:
         global racer_speed
         global racer_position
         had_input()
-        if racer_speed == 1.0:
+        if racer_speed == 5.0:
             racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-            racer_speed = 5.0
+            racer_speed = 25.0
         else:
-            racer_speed = 1.0
+            racer_speed = 5.0
 
     def racer_reverse():
         """Turn the racer around 180 degrees"""
@@ -429,7 +436,7 @@ class RacerActions:
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
         had_input()
         time = str(seconds*1000)+"ms"
-        racer_speed = 1.0
+        racer_speed = 5.0
         def reset():
             global racer_speed
             racer_speed = 0.0
@@ -489,7 +496,7 @@ class RacerActions:
 
         had_input() #starting time 
         time = str(deciseconds*100)+"ms" #stopping time
-        racer_speed = 1.0
+        racer_speed = 5.0
         def reset():
             global racer_speed
             racer_speed = 0.0
