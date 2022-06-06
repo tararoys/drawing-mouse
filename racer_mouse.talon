@@ -83,12 +83,12 @@ right <number> : user.racer_right_x_degrees("{number}")
 
 #car random: user.racer_random()
 
-drag: 
+pen down: 
 	user.pen_down()
 
-release: 
+pen up: 
 	user.pen_up()
-	user.mouse_drag_end()
+	#user.mouse_drag_end()
 
 touch:
 	mouse_click(0)
@@ -105,3 +105,10 @@ touch:
 #	user.racer_gas_toggle()
 
 #action(user.noise_pop): user.racer_gas_toggle()
+
+drawing mode off:
+	mode.enable("command")
+	mode.disable("user.drawing")
+	user.racer_stop()
+	user.compass_mouse_guide_disable()
+

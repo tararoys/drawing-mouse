@@ -1,4 +1,4 @@
-not mode: sleep
+
 
 -
 
@@ -12,10 +12,4 @@ drawing mode:
     user.racer_start()
     user.compass_mouse_guide_enable()
 
-
-drawing mode off:
-	mode.enable("command")
-	mode.disable("user.drawing")
-	user.racer_stop()
-	user.compass_mouse_guide_disable()
 
