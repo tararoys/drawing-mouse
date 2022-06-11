@@ -1,4 +1,5 @@
 from array import array
+from operator import truediv
 from talon import Module, Context, canvas, ctrl, cron, ui, actions, app
 from talon.types import Point2d
 
@@ -11,6 +12,7 @@ import numpy as np
 
 racer = Module()
 
+racer_direction = "straight"
 racer_turns_cw = True
 racer_current_speed = 0.0
 racer_turning = False
@@ -72,12 +74,12 @@ def racer_tick_cb():
 
     #racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
 
-    if racer_random_mode:
-        if racer_turning == False and randrange(0, 1000) < 10:
-            racer_turning = max(0, normalvariate(1, 0.3))
-            racer_turns_cw = choice([True, False])
-        if racer_turning != False and randrange(0, 1000) < 15:
-            racer_turns_cw = normalvariate(5, 2) * choice([-1, 1])
+    # if racer_random_mode:
+    #     if racer_turning == False and randrange(0, 1000) < 10:
+    #         racer_turning = max(0, normalvariate(1, 0.3))
+    #         racer_turns_cw = choice([True, False])
+    #     if racer_turning != False and randrange(0, 1000) < 15:
+    #         racer_turns_cw = normalvariate(5, 2) * choice([-1, 1])
 
     if isinstance(racer_turning, float): 
         racer_turning -= 1 / 40
@@ -184,6 +186,7 @@ def racer_canvas_draw(canvas):
     paint = canvas.paint
     global racer_speed
     global frame_rate
+    global racer_direction
 
     paint.color = "00000000"
 
@@ -210,17 +213,28 @@ def racer_canvas_draw(canvas):
     turning_radius_curve_array=[]
 
     if racer_turns_cw is True: 
+        if racer_direction == "clockwise":
+            paint.color = "00ff00ff"
+        else: 
+            paint.color = "ff0000ff"
         for x in np.arange( pi , 5*pi/2 , pi/180):
             turning_radius_curve_array.append(Point2d(( (turning_radius * cos(x)) * cos(racer_angle) - (turning_radius * sin(x) - turning_radius) * sin(racer_angle)), turning_radius * cos(x) * sin(racer_angle) + (turning_radius*sin(x) - turning_radius) * cos(racer_angle)))
     else:
+        if racer_direction == "counterclockwise":
+            paint.color = "00ff00ff"
+        else: 
+            paint.color = "ff0000ff"
         for x in np.arange( 3*pi/2, 6*pi/2 , pi/180):
             turning_radius_curve_array.append(Point2d(( (turning_radius * cos(x)) * cos(racer_angle) - (turning_radius * sin(x) + turning_radius) * sin(racer_angle)), turning_radius * cos(x) * sin(racer_angle) + (turning_radius*sin(x) + turning_radius) * cos(racer_angle)))
-
 
 
     canvas.draw_points(canvas.PointMode.POLYGON,
             turning_radius_curve_array)
 
+    if racer_direction =="straight":
+        paint.color = "00ff00ff"
+    else:
+        paint.color = "ff0000ff"
     canvas.draw_line(0,0, 5000*cos(racer_angle), 5000*sin(racer_angle))
     canvas.paint.textsize=20
     canvas.paint.text_align = 'center'
@@ -359,21 +373,41 @@ class RacerActions:
     def racer_flip_turn_direction():
         """Changes rotation from CW to CCW and back"""
         global racer_turns_cw
+        global racer_direction
         had_input()
         racer_turns_cw = not racer_turns_cw
+        if racer_direction is "clockwise":
+            racer_direction = "counterclockwise"
+        else:
+            racer_direction = "clockwise"
+
 
     def racer_turns_clockwise():
         """Set turning direction to clockwise"""
         global racer_turns_cw
+        global racer_direction 
+        racer_direction = 'clockwise'
         had_input
         racer_turns_cw = True
+        
 
     def racer_turns_counterclockwise():
         """Set turning direction to counterclockwise"""
         global racer_turns_cw
+        global racer_direction 
+        racer_direction = "counterclockwise"
         had_input()
         racer_turns_cw = False
 
+    def racer_goes_straight():
+        """set racer to go straight ahead"""
+        global racer_direction 
+        racer_direction = "straight"
+
+    def get_racer_direction():
+        """get the current racer direction.  options are  a choice between the strings 'clockwise, 'counterclockwise', and 'straight'"""
+        global racer_direction
+        return racer_direction
  
 
     def racer_nudge():

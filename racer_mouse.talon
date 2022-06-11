@@ -45,6 +45,10 @@ left | counter clockwise | counter  | port:
 
 right | clockwise | clock | starboard: 
 	user.racer_turns_counterclockwise()
+
+straight | ahead :
+	user.racer_goes_straight()
+
 back <number_small>:
 	# teleports forward along the line
 	user.skip_backward_x_inches(number_small)
@@ -75,7 +79,6 @@ compass {user.point_of_compass}:
 
 radius up <number_small>: 
 	user.increase_turning_radius(number_small)
-
  
 radius down <number_small>: 
 	user.decrease_turning_radius(number_small)
@@ -86,8 +89,6 @@ left <number> : user.racer_left_x_degrees("{number}")
 
 right <number> : user.racer_right_x_degrees("{number}")
 
-#car random: user.racer_random()
-
 pen down: 
 	user.pen_down()
 
@@ -95,12 +96,9 @@ pen up:
 	user.pen_up()
 	#user.mouse_drag_end()
 
-touch:
-	mouse_click(0)
-	#user.mouse_drag_end()
 
 
-<user.prose>: skip()
+#<user.prose>: skip()
 
 #action(user.noise_hiss_start):
 #	user.racer_gas_toggle()
@@ -116,4 +114,6 @@ drawing mode off:
 	mode.disable("user.drawing")
 	user.racer_stop()
 	user.compass_mouse_guide_disable()
+
+
 

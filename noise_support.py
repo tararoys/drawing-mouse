@@ -23,8 +23,12 @@ def hiss_handler(active):
     if active: 
         print('s')
         #actions.key('shift')
-        actions.user.racer_turn_start()
-        actions.user.racer_gas()
+        if actions.user.get_racer_direction() == 'clockwise' or actions.user.get_racer_direction() == 'counterclockwise':
+            actions.user.racer_turn_start()
+            actions.user.racer_gas()
+        elif actions.user.get_racer_direction() == 'straight':
+            actions.user.racer_gas()
+
     else:
         print('done')
         actions.user.racer_turn_stop()
