@@ -210,10 +210,10 @@ def racer_canvas_draw(canvas):
     turning_radius_curve_array=[]
 
     if racer_turns_cw is True: 
-        for x in np.arange( pi/2 , 5*pi/2 , pi/180):
+        for x in np.arange( pi , 5*pi/2 , pi/180):
             turning_radius_curve_array.append(Point2d(( (turning_radius * cos(x)) * cos(racer_angle) - (turning_radius * sin(x) - turning_radius) * sin(racer_angle)), turning_radius * cos(x) * sin(racer_angle) + (turning_radius*sin(x) - turning_radius) * cos(racer_angle)))
     else:
-        for x in np.arange( 3*pi/2, 7*pi/2 , pi/180):
+        for x in np.arange( 3*pi/2, 6*pi/2 , pi/180):
             turning_radius_curve_array.append(Point2d(( (turning_radius * cos(x)) * cos(racer_angle) - (turning_radius * sin(x) + turning_radius) * sin(racer_angle)), turning_radius * cos(x) * sin(racer_angle) + (turning_radius*sin(x) + turning_radius) * cos(racer_angle)))
 
 
