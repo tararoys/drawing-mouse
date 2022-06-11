@@ -3,7 +3,7 @@ mode: user.drawing
 
 -
 
-tag(): user.inkscape
+tag(): user.drawing_mouse_buttons
 
 start your engine: 
 	# start your engine is the command to make the racecar mouse cursor appear
