@@ -228,22 +228,20 @@ def racer_canvas_draw(canvas):
         canvas.draw_line(racer_speed*frame_rate*x*cos(racer_angle), racer_speed*frame_rate*x*sin(racer_angle), racer_speed*frame_rate*x*cos(racer_angle)-50*sin(racer_angle), racer_speed*frame_rate*x*sin(racer_angle) + 50*cos(racer_angle))
         canvas.draw_text(str(x), racer_speed*frame_rate*x*cos(racer_angle)-60*sin(racer_angle), racer_speed*frame_rate*x*sin(racer_angle) + 60*cos(racer_angle))
 
-    paint.color = "ffff00ff"
-    canvas.draw_line(0,0, -5000*cos(racer_angle), -5000*sin(racer_angle))
+    
+
+    #paint.color = "ffff00ff"
+    #canvas.draw_line(0,0, -5000*cos(racer_angle), -5000*sin(racer_angle))
  
-    canvas.paint.textsize=20
-    canvas.paint.text_align = 'center'
-    for x in range(50):
-        canvas.draw_line(100*-x*cos(racer_angle), 100*-x*sin(racer_angle), 100*-x*cos(racer_angle)-50*sin(racer_angle), 100*-x*sin(racer_angle)+50*cos(racer_angle))
-        canvas.draw_text(str(-x), 100*-x*cos(racer_angle)-60*sin(racer_angle), 100*-x*sin(racer_angle)+60*cos(racer_angle))
+    #canvas.paint.textsize=20
+    #canvas.paint.text_align = 'center'
+    #for x in range(50):
+    #    canvas.draw_line(100*-x*cos(racer_angle), 100*-x*sin(racer_angle), 100*-x*cos(racer_angle)-50*sin(racer_angle), 100*-x*sin(racer_angle)+50*cos(racer_angle))
+    #    canvas.draw_text(str(-x), 100*-x*cos(racer_angle)-60*sin(racer_angle), 100*-x*sin(racer_angle)+60*cos(racer_angle))
 
 
 
     #canvas.draw_points(canvas.PointMode.POLYGON, precision_curve_array)
-
-
-
-        
 
     direction = 1 if racer_turns_cw else -1
 
