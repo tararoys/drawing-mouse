@@ -361,6 +361,19 @@ class RacerActions:
         global racer_turns_cw
         had_input()
         racer_turns_cw = not racer_turns_cw
+
+    def racer_turns_clockwise():
+        """Set turning direction to clockwise"""
+        global racer_turns_cw
+        had_input
+        racer_turns_cw = True
+
+    def racer_turns_counterclockwise():
+        """Set turning direction to counterclockwise"""
+        global racer_turns_cw
+        had_input()
+        racer_turns_cw = False
+
  
 
     def racer_nudge():

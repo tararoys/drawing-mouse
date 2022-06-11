@@ -40,6 +40,11 @@ skip point <digits>:
 	number = digits/10
 	user.skip_forward_x_inches(number)
 
+left | counter clockwise | counter  | port: 
+	user.racer_turns_clockwise()
+
+right | clockwise | clock | starboard: 
+	user.racer_turns_counterclockwise()
 back <number_small>:
 	# teleports forward along the line
 	user.skip_backward_x_inches(number_small)
