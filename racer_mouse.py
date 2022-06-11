@@ -12,8 +12,10 @@ import numpy as np
 racer = Module()
 
 racer_turns_cw = True
-racer_speed = 0.0
+racer_current_speed = 0.0
 racer_turning = False
+racer_speed = 10
+frame_rate = 50
 
 racer_turn_start_time = 0
 
@@ -92,24 +94,24 @@ def racer_tick_cb():
             if racer_turns_cw >= 0:
                 racer_turns_cw = True
 
-    if racer_speed > 0.0 and racer_turning is False:
-        racer_position += Point2d(cos(racer_angle), sin(racer_angle)) * racer_speed  #This line is the line responsible for drawing butts.  
+    if racer_current_speed > 0.0 and racer_turning is False:
+        racer_position += Point2d(cos(racer_angle), sin(racer_angle)) * racer_current_speed 
         racer_canvas.move(racer_position.x, racer_position.y)
         ctrl.mouse_move(racer_position.x + 2500, racer_position.y + 2500)
     
     if racer_turning and racer_turn_start_time < time.time() - 0.1:
-        x = turning_radius*cos(pi/2 + racer_angle) + turning_radius*cos(racer_speed/turning_radius-pi/2+racer_angle)
-        y = turning_radius*sin(pi/2 + racer_angle) + turning_radius*sin(racer_speed/turning_radius-pi/2+racer_angle)
+        x = turning_radius*cos(pi/2 + racer_angle) + turning_radius*cos(racer_current_speed/turning_radius-pi/2+racer_angle)
+        y = turning_radius*sin(pi/2 + racer_angle) + turning_radius*sin(racer_current_speed/turning_radius-pi/2+racer_angle)
         print(x)
         print(y)
         racer_position = Point2d(racer_position.x + x, racer_position.y + y)
         racer_canvas.move(racer_position.x, racer_position.y)
         ctrl.mouse_move(racer_position.x + 2500, racer_position.y + 2500)
         if racer_turns_cw:
-            racer_angle -=  racer_speed / turning_radius
+            racer_angle -=  racer_current_speed / turning_radius
             #racer_angle -= .1 # This is in radians.
         else:
-            racer_angle +=  racer_speed / turning_radius
+            racer_angle +=  racer_current_speed / turning_radius
             #racer_angle += .1 # This is in radians. 
         
     racer_canvas.show()
@@ -180,6 +182,8 @@ def racer_canvas_draw(canvas):
     global turning_radius
     global turning_radius_curve_array
     paint = canvas.paint
+    global racer_speed
+    global frame_rate
 
     paint.color = "00000000"
 
@@ -221,8 +225,8 @@ def racer_canvas_draw(canvas):
     canvas.paint.textsize=20
     canvas.paint.text_align = 'center'
     for x in range(50):
-        canvas.draw_line(100*x*cos(racer_angle), 100*x*sin(racer_angle), 100*x*cos(racer_angle)-50*sin(racer_angle), 100*x*sin(racer_angle) + 50*cos(racer_angle))
-        canvas.draw_text(str(x), 100*x*cos(racer_angle)-60*sin(racer_angle), 100*x*sin(racer_angle) + 60*cos(racer_angle))
+        canvas.draw_line(racer_speed*frame_rate*x*cos(racer_angle), racer_speed*frame_rate*x*sin(racer_angle), racer_speed*frame_rate*x*cos(racer_angle)-50*sin(racer_angle), racer_speed*frame_rate*x*sin(racer_angle) + 50*cos(racer_angle))
+        canvas.draw_text(str(x), racer_speed*frame_rate*x*cos(racer_angle)-60*sin(racer_angle), racer_speed*frame_rate*x*sin(racer_angle) + 60*cos(racer_angle))
 
     paint.color = "ffff00ff"
     canvas.draw_line(0,0, -5000*cos(racer_angle), -5000*sin(racer_angle))
@@ -272,8 +276,8 @@ class RacerActions:
         global racer_canvas
         global racer_position
         global racer_tick_job
-        global racer_speed
-
+        global racer_current_speed
+        global frame_rate
 
         had_input()
 
@@ -287,7 +291,8 @@ class RacerActions:
         racer_canvas.register("draw", racer_canvas_draw)
         if racer_tick_job:
             cron.cancel(racer_tick_job)
-        racer_tick_job = cron.interval("40ms", racer_tick_cb)
+        timing = str(int(1000/frame_rate))+"ms"
+        racer_tick_job = cron.interval(timing, racer_tick_cb)
         racer_canvas.show()
         # racer_canvas.freeze()
 
@@ -362,50 +367,53 @@ class RacerActions:
 
     def racer_nudge():
         """Drives the car forward a tiny bit"""
-        global racer_speed
+        global racer_current_speed
         had_input()
-        racer_speed = 0.1
+        racer_current_speed = 0.1
         def reset():
-            global racer_speed
-            racer_speed = 0.0
+            global racer_current_speed
+            racer_current_speed = 0.0
         cron.after("500ms", reset)
 
     def racer_gas():
         """Start driving forward"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
+        global racer_speed
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-        racer_speed = 5.0
+        racer_current_speed = racer_speed
 
 
     def racer_brakes():
         """stop driving"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
-        racer_speed = 0
+        racer_current_speed = 0
         
 
     def racer_gas_toggle():
         """Switch between driving and stopped"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
+        global racer_speed
         had_input()
-        if racer_speed == 0.0:
+        if racer_current_speed == 0.0:
             racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-            racer_speed = 5.0
+            racer_current_speed = racer_speed
         else:
-            racer_speed = 0.0
+            racer_current_speed = 0.0
 
     def racer_turbo_toggle():
         """Switch between driving TURBO DRIVING"""
+        global racer_current_speed
         global racer_speed
         global racer_position
         had_input()
-        if racer_speed == 5.0:
+        if racer_current_speed == racer_speed:
             racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-            racer_speed = 25.0
+            racer_current_speed = racer_speed*racer_speed
         else:
-            racer_speed = 5.0
+            racer_current_speed = racer_speed
 
     def racer_reverse():
         """Turn the racer around 180 degrees"""
@@ -422,7 +430,7 @@ class RacerActions:
     def increase_turning_radius(number:int):
         """increase turning radius"""
         global turning_radius
-        turning_radius = turning_radius + number*10
+        turning_radius = turning_radius + number * 10
 
     def decrease_turning_radius(number:int):
         """decrease turning radius"""
@@ -431,34 +439,35 @@ class RacerActions:
 
     def drive_forward_x_seconds(seconds:int):
         """drive the mouse forward a certain number of inches"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
+        global racer_speed
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
         had_input()
         time = str(seconds*1000)+"ms"
-        racer_speed = 5.0
+        racer_current_speed = racer_speed
         def reset():
-            global racer_speed
-            racer_speed = 0.0
+            global racer_current_speed
+            racer_current_speed = 0.0
         cron.after(time, reset)
 
     def skip_forward_x_inches(seconds:int):
         """drive the mouse forward a certain number of inches"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
         global racer_canvas
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-        racer_position += Point2d(cos(racer_angle)*seconds*100, sin(racer_angle)*seconds*100)
+        racer_position += Point2d(cos(racer_angle)*seconds*racer_speed*frame_rate, sin(racer_angle)*seconds*racer_speed*frame_rate)
         racer_canvas.move(racer_position.x, racer_position.y)
         ctrl.mouse_move(racer_position.x +2500, racer_position.y +2500)
 
     def skip_backward_x_inches(seconds:int):
         """drive the mouse forward a certain number of inches"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
         global racer_canvas
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
-        racer_position += Point2d(cos(racer_angle)*-seconds*100, sin(racer_angle)*-seconds*100)
+        racer_position += Point2d(cos(racer_angle)*-seconds*racer_speed*frame_rate, sin(racer_angle)*-seconds*racer_speed*frame_rate)
         racer_canvas.move(racer_position.x, racer_position.y)
         ctrl.mouse_move(racer_position.x +2500, racer_position.y +2500)
 
@@ -491,15 +500,15 @@ class RacerActions:
 
     def drive_forward_x_deciseconds(deciseconds:int):
         """drive the mouse forward a certain number of inches"""
-        global racer_speed
+        global racer_current_speed
         global racer_position
-
+        global racer_speed
         had_input() #starting time 
         time = str(deciseconds*100)+"ms" #stopping time
-        racer_speed = 5.0
+        racer_current_speed = racer_speed
         def reset():
-            global racer_speed
-            racer_speed = 0.0
+            global racer_current_speed
+            racer_current_speed = 0.0
         cron.after(time, reset)
 
     def pen_down():
