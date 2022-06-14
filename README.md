@@ -165,3 +165,7 @@ As an alternative to using degress, you can also use directions to change the or
     southwest
     south southwest
     north northeast
+
+# Available mouse commands 
+
+Mouse commands are defined in the file drawing_mouse_buttons.talon.  This is a copy of the mouse commands found in knausj, and allows you to press and hold all mouse buttons, scroll scrollwheels, right click, doubleclick, triple click, and basically press all the mouse buttons one would want.  
