@@ -12,12 +12,8 @@ park the car :
 	# [in order to turn off the mouse cursor]
 	user.racer_stop()
 
-car nudge : 
-	# [in order to make the car go a tiny bit forward]
-	user.racer_nudge()
-#car boost :
-	# [in order to make the car go faster] 
-	user.racer_turbo_toggle()
+
+
 car reverse  :
 	# [in order to make the car go in the opposite direction] 
 	user.racer_reverse()
