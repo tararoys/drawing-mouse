@@ -3,6 +3,8 @@ This code replaces a tablet and stylus, or a paper and pencil, with voice comman
 # Demo Video
 
 
+![](assets/drawing-a-half-moon.gif)
+
 
 # Installation
 
@@ -50,17 +52,23 @@ The simplest way to get started drawing is by using directions commands and hiss
 
 You will notice that the helper graphic has a straight line and a curve.  One of those will be green.  If you start hissing, the car will move forward along the line that is green.  When you stop hissing, it will stop.  
 
+## Going straight
+
 ![](assets/straight.gif)
 
 To select the straight line for the car to drive alng, say 
 
     'straight' 
 
+# Turning Left
+
 ![](assets/left-hiss.gif)
 
 To select the curve to the left for the car to drive along, say 
 
     'left'
+
+# Turning Right
 
 ![](assets/right.gif)
 
@@ -70,11 +78,15 @@ To select the curve to the right for the car to drive along, say
 
 ![](assets/radius-up.gif)
 
-To increase the radius of the curve, say 
+# Making the Curve Gentler/Looser
+
+increase the radius of the curve, say 
 
     'radius up <number>'
 
 For example, 'radius up 10' will increase the size of the curve circle by 10 
+
+# Making the Curve Sharper/Tighter
 
 ![](assets/radius-down.gif)
 
@@ -82,19 +94,26 @@ To decrease the radius of the curve, say
 
     'radius down <number>'
 
-
-To change the orientation of the mouse without drawing a curve, say a number between one and 360.  This will point the straight ruler to that degree on the compass rose.  This is how to make corners.  
-
 For example 'radius down 5'
 
 
+# Making A Corner
+
+![](assets/orientation-by-degree.gif)
+
+To change the orientation of the mouse without drawing a curve, say a number between one and 360.  This will point the straight ruler to that degree on the compass rose.  This is how to make corners.  
+
+
 To actually draw, you must open up a drawing program, select a drawing tool and start a drag command.  This is the equivalent to putting down a stylus on a tablet or holding down the mouse button on a mouse or trackpad.  
+
+![](assets/drag.gif)
+
 
 Say 
 
     'drag' 
 
-To start dragging and put your virtual 'pen' down on your virdual 'paper'
+To start dragging and put your virtual 'pen' down on your virtual 'paper'
 
 Say 
 
