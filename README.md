@@ -152,3 +152,16 @@ To drive along the curve of your turning circle, specify the number of degrees y
 As of right now, the curve command is not quite precise.  You can go 360 degrees (or more) but you can't do fractions of a degree.  
 
 The car mode will turn itself off automatically after 45 seconds of no commands / input.
+
+# Misc
+
+As an alternative to using degress, you can also use directions to change the orientation of the mouse.  For example 
+
+    north
+    east
+    south
+    west
+    northeast
+    southwest
+    south southwest
+    north northeast

@@ -44,8 +44,6 @@ drive <number_small> [point <digits>]:
 	user.drive_forward_x_seconds(number)
 
 
-
-
 radius up <number_small>: 
 	user.increase_turning_radius(number_small)
  
@@ -60,7 +58,7 @@ right <number> : user.racer_right_x_degrees("{number}")
 
 
 
-compass {user.point_of_compass}: 
+{user.point_of_compass}: 
 	# [ to make the car point in one or the cardinal or ordinal directions north northeast east southeast south southwest west northwest]
 	user.racer_set_compass_direction(point_of_compass)
 
