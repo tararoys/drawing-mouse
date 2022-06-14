@@ -16,8 +16,8 @@ racer_direction = "straight"
 racer_turns_cw = True
 racer_current_speed = 0.0
 racer_turning = False
-racer_speed = 10
-frame_rate = 50
+racer_speed = 5
+frame_rate = 25
 
 racer_turn_start_time = 0
 
