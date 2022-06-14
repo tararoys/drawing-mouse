@@ -62,7 +62,7 @@ To select the curve to the left for the car to drive along, say
 
     'left'
 
-![](assets/right.gif
+![](assets/right.gif)
 
 To select the curve to the right for the car to drive along, say 
 
