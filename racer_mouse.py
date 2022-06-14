@@ -364,10 +364,10 @@ class RacerActions:
         """Stops turning the "car"."""
         global racer_turning
         had_input()
-        if racer_turn_start_time >= time.time() - 0.1:
-            actions.user.racer_flip_turn_direction()
-        else:
-            print("hmm")
+        #if racer_turn_start_time >= time.time() - 0.1: This code allowed you to use a short hiss to switch directions, but it was beng activated when I said 'radius up' so it is commented out
+            #actions.user.racer_flip_turn_direction()
+        #else:
+        #    print("hmm")
         racer_turning = False
 
     def racer_flip_turn_direction():
