@@ -482,14 +482,17 @@ class RacerActions:
         global turning_radius
         turning_radius = turning_radius - number*10
 
-    def drive_forward_x_seconds(seconds:int):
+    def drive_forward_x_seconds(seconds:str):
         """drive the mouse forward a certain number of inches"""
         global racer_current_speed
         global racer_position
         global racer_speed
+        time = str(int(float(seconds)*1000)) + "ms"
+
+
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
         had_input()
-        time = str(seconds*1000)+"ms"
+        #time = str(seconds*1000)+"ms"
         racer_current_speed = racer_speed
         def reset():
             global racer_current_speed
@@ -501,16 +504,18 @@ class RacerActions:
         global racer_current_speed
         global racer_position
         global racer_canvas
+        seconds = float(seconds)
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
         racer_position += Point2d(cos(racer_angle)*seconds*racer_speed*frame_rate, sin(racer_angle)*seconds*racer_speed*frame_rate)
         racer_canvas.move(racer_position.x, racer_position.y)
         ctrl.mouse_move(racer_position.x +2500, racer_position.y +2500)
 
-    def skip_backward_x_inches(seconds:int):
+    def skip_backward_x_inches(seconds:str):
         """drive the mouse forward a certain number of inches"""
         global racer_current_speed
         global racer_position
         global racer_canvas
+        seconds = float(seconds)
         racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500)
         racer_position += Point2d(cos(racer_angle)*-seconds*racer_speed*frame_rate, sin(racer_angle)*-seconds*racer_speed*frame_rate)
         racer_canvas.move(racer_position.x, racer_position.y)
