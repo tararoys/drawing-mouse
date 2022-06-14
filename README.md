@@ -121,49 +121,34 @@ Say
 
 to finish dragging and lift your virtual 'pen' off your virtual 'paper'.
 
-
 Using hissing and these 5 drawing commands, you can draw!  
-
-
 
 # Advanced Drawing Commands 
 
+If you want more precision when drawing, and don't want to hiss, you can be more specific in the following ways:  
 
+# Drawing A Specified Distance
 
+The following commands are currently imprecise, and will change later.  
 
+The straight ruler has tick marks on it.  You can draw to a specific tick mark such as two by saying
 
+    'drive two'
 
+You can draw to partial points on the line by saying a decimal, such as 
 
+    'drive one point two five'  
 
+To drive less than one tick mark, you must say the leading zero, such as
 
-This is a very silly, but fun, input method for mouse movement.
+    'drive zero point two'
 
-Start it with "start driving", stop it with "stop driving".
+## Drawing A Specified Distance Along A curve
 
-Doing the pop noise, or saying "car gas" will make the car start or stop moving. Hissing will turn the car, but hissing for just a short moment will change the turn direction between clockwise and counterclockwise.
+To drive along the curve of your turning circle, specify the number of degrees you want to drive.  For example, if you want to drive a fourth of the way around your turning circle, say 
 
-say "car reverse" turns the car 180 degrees instantaneously. "car flip" works like the short hiss and changes between clockwise and counterclockwise.
+    'turn nintey'  
 
-"car nudge" will move the car for a tiny amount of time.
+As of right now, the curve command is not quite precise.  You can go 360 degrees (or more) but you can't do fractions of a degree.  
 
-"car boost" will turn the turbo mode on or off.
-
-the car will bounce off the sides of your screen when it hits them.
-
-you can say "car north" with any of the 16 points of the compass (E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW, N, NNE, NE, ENE) to set the car in a certain direction, even while driving.
-
-finally, say "car random" to turn a random "demonstration mode" on or off.
-
-The car mode will turn itself off automatically after 45 seconds of no commands / input. Random mode will run longer than that.
-
-BUGS:
-
-* Before you pop the first time, the car is displayed in the top left corner of the screen, but immediately teleports to the center when started
-
-TODO:
-
-* [ ] Short demonstration video / gif
-* [ ] submit noise support to knausj
-* [ ] Restrict the car to the focussed window
-* [ ] More control over the speed and turn rate of the car
-* [ ] "preview" for a given course, perhaps the ability to plan ahead as if editing splines in a vector graphics program
+The car mode will turn itself off automatically after 45 seconds of no commands / input.
