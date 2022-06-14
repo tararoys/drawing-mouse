@@ -11,9 +11,7 @@ start your engine:
 park the car : 
 	# [in order to turn off the mouse cursor]
 	user.racer_stop()
-car flip : 
-	# [to change the direction of the turn]
-	user.racer_flip_turn_direction()
+
 car nudge : 
 	# [in order to make the car go a tiny bit forward]
 	user.racer_nudge()
@@ -51,9 +49,6 @@ drive <number_small> [point <digits>]:
 
 
 
-compass {user.point_of_compass}: 
-	# [ to make the car point in one or the cardinal or ordinal directions north northeast east southeast south southwest west northwest]
-	user.racer_set_compass_direction(point_of_compass)
 
 radius up <number_small>: 
 	user.increase_turning_radius(number_small)
@@ -67,25 +62,14 @@ left <number> : user.racer_left_x_degrees("{number}")
 
 right <number> : user.racer_right_x_degrees("{number}")
 
-pen down: 
-	user.pen_down()
-
-pen up: 
-	user.pen_up()
-	#user.mouse_drag_end()
 
 
+compass {user.point_of_compass}: 
+	# [ to make the car point in one or the cardinal or ordinal directions north northeast east southeast south southwest west northwest]
+	user.racer_set_compass_direction(point_of_compass)
 
-#<user.prose>: skip()
 
-#action(user.noise_hiss_start):
-#	user.racer_gas_toggle()
-#	user.racer_turn_start()
-#action(user.noise_hiss_stop): 
-#	user.racer_turn_stop()
-#	user.racer_gas_toggle()
 
-#action(user.noise_pop): user.racer_gas_toggle()
 
 drawing mode off:
 	mode.enable("command")
