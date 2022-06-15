@@ -16,7 +16,7 @@ racer_direction = "straight"
 racer_turns_cw = True
 racer_current_speed = 0.0
 racer_turning = False
-racer_speed = 5
+racer_speed = 25
 frame_rate = 25
 
 racer_turn_start_time = 0
@@ -570,5 +570,11 @@ class RacerActions:
         """picks the pencil up"""
         global is_dragging
         is_dragging = False
+
+    def set_racer_speed(speed: int): 
+        """sets the speed of the mouse as it drives forward."""
+        global racer_speed
+        racer_speed = speed
+    
 # inkscape stuff: 
 racer.tag("inkscape", desc="tag for enabling inkscape commands in drawing mode") 

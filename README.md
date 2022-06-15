@@ -169,3 +169,19 @@ As an alternative to using degress, you can also use directions to change the or
 # Available mouse commands 
 
 Mouse commands are defined in the file drawing_mouse_buttons.talon.  This is a copy of the mouse commands found in knausj, and allows you to press and hold all mouse buttons, scroll scrollwheels, right click, doubleclick, triple click, and basically press all the mouse buttons one would want.  
+
+# Changing the speed
+
+You may notice that your line is more wobbling when you draw at slower speeds, and is smoother when you draw at faster speeds.  
+
+The speed of the mouse is represented by the tick marks on the straight ruler  One tick mark is how far the car will drive during one second of hissing.  
+
+The speed can be set with the command 
+
+    speed <number>
+
+For example, 
+
+    speed 5 
+
+will allow you to draw slowly and carefully.  However, you will probably notice that the line drawn at that speed is very wobbly.  If you set the speed to 25, you may notice that the lines drawn are very smooth, although you will probably have to draw on a larger canvas.  

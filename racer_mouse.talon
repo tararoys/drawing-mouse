@@ -57,11 +57,12 @@ left <number> : user.racer_left_x_degrees("{number}")
 right <number> : user.racer_right_x_degrees("{number}")
 
 
-
 {user.point_of_compass}: 
 	# [ to make the car point in one or the cardinal or ordinal directions north northeast east southeast south southwest west northwest]
 	user.racer_set_compass_direction(point_of_compass)
 
+speed <number_small>:  
+	user.set_racer_speed(number_small)
 
 
 
