@@ -64,6 +64,13 @@ right <number> : user.racer_right_x_degrees("{number}")
 speed <number_small>:  
 	user.set_racer_speed(number_small)
 
+speed up <number_small>: 
+	user.increase_racer_speed(number_small)
+
+speed down <number_small>:
+	user.decrease_racer_speed(number_small)
+	
+
 
 
 drawing mode off:

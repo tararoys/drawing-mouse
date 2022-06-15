@@ -575,6 +575,19 @@ class RacerActions:
         """sets the speed of the mouse as it drives forward."""
         global racer_speed
         racer_speed = speed
+
+    def increase_racer_speed(speed: int): 
+        """increases the speed of the mouse as it drives forward."""
+        global racer_speed
+        racer_speed += speed
+    
+    def decrease_racer_speed(speed: int): 
+        """decreases the speed of the mouse as it drives forward."""
+        global racer_speed
+        if (racer_speed - speed) >= 0:  
+            racer_speed -= speed
+        else:
+            racer_speed = 0
     
 # inkscape stuff: 
 racer.tag("inkscape", desc="tag for enabling inkscape commands in drawing mode") 
