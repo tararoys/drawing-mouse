@@ -52,6 +52,12 @@ radius down <number_small>:
 	
 <number> : user.racer_set_direction_in_compass_degrees("{number}")
 
+plus <number> : user.racer_right_x_degrees("{number}")
+
+minus <number> : user.racer_left_x_degrees("{number}")
+
+
+
 left <number> : user.racer_left_x_degrees("{number}")
 
 right <number> : user.racer_right_x_degrees("{number}")
