@@ -133,13 +133,13 @@ def racer_tick_cb():
     if is_dragging:
         actions.mouse_drag(0) 
 
-    if last_input_time + 45 < time.time():
+    if last_input_time + 245 < time.time():
         if racer_random_mode:
             if choice([True, False, False, False, False, False, False]):
                 actions.user.racer_stop()
         else:
             actions.user.racer_stop()
-            app.notify("car stopped after 45s of inactivity")
+            app.notify("car stopped after 245s of inactivity")
     
     # code for curve command
     global fraction
@@ -175,10 +175,16 @@ def racer_tick_cb():
             ctrl.mouse_move(starting_point.x + 2500 + int(clockwise_turn[current_index].x), starting_point.y + 2500 +  int(clockwise_turn[current_index].y))
             racer_canvas.move(starting_point.x + clockwise_turn[current_index].x,  starting_point.y +  clockwise_turn[current_index].y)
         if is_dragging:
-            actions.mouse_drag(0)   
+            actions.mouse_drag(0)
+    
+     
   
 
 racer_canvas = None 
+def on_mouse():
+    racer_position = Point2d(actions.mouse_x() - 2500, actions.mouse_y() - 2500) 
+    racer_canvas.move(racer_position.x, racer_position.y)
+
 
 def racer_canvas_draw(canvas):
     global turning_radius
@@ -288,6 +294,7 @@ class RacerActions:
         global racer_canvas
         global racer_position
         global racer_tick_job
+        global job
         global racer_current_speed
         global frame_rate
 
@@ -301,18 +308,22 @@ class RacerActions:
         # racer_position = Point2d(5, 5)
         racer_canvas.move(racer_position.x, racer_position.y)
         racer_canvas.register("draw", racer_canvas_draw)
+        racer_canvas.register("mousemove", on_mouse)  
         if racer_tick_job:
             cron.cancel(racer_tick_job)
         timing = str(int(1000/frame_rate))+"ms"
         racer_tick_job = cron.interval(timing, racer_tick_cb)
-        racer_canvas.show()
+        racer_canvas.show() 
         # racer_canvas.freeze()
+        job = cron.interval('16ms', on_mouse)
 
     def racer_stop():
         """Stops the "racing" mouse mode"""
         cron.cancel(racer_tick_job)
+        cron.cancel(job)
         actions.mouse_release()
         racer_canvas.unregister("draw", racer_canvas_draw)
+        racer_canvas.unregister("mousemove", on_mouse)
         racer_canvas.hide()
 
     def racer_random(activate: int = -1):
@@ -351,6 +362,15 @@ class RacerActions:
         global racer_angle
         had_input()
         racer_angle = (float(direction))
+    
+    def racer_turn_true():
+        """Starts turning the "car" As opposed to going straight."""
+        global racer_turns_cw
+        global racer_direction
+        if racer_turns_cw is True:
+            racer_direction = "clockwise"
+        else:
+            racer_direction = "counterclockwise"
 
     def racer_turn_start():
         """Starts turning the "car"."""
@@ -378,8 +398,10 @@ class RacerActions:
         racer_turns_cw = not racer_turns_cw
         if racer_direction is "clockwise":
             racer_direction = "counterclockwise"
-        else:
+        elif racer_direction is "counterclockwise":
             racer_direction = "clockwise"
+        else:
+            racer_direction = "straight"
 
 
     def racer_turns_clockwise():
@@ -471,6 +493,11 @@ class RacerActions:
     def int_to_float(seconds:int):
         """turn an int to a float"""
         return float(seconds)
+
+    def set_turning_radius(number:int):
+        """set turning radius"""
+        global turning_radius
+        turning_radius = number*10
 
     def increase_turning_radius(number:int):
         """increase turning radius"""

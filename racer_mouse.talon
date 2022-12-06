@@ -14,7 +14,7 @@ park the car :
 
 
 
-car reverse  :
+[car] reverse  :
 	# [in order to make the car go in the opposite direction] 
 	user.racer_reverse()
 
@@ -35,14 +35,19 @@ right | clockwise | clock | starboard:
 straight | ahead :
 	user.racer_goes_straight()
 
+turn: user.racer_turn_true()
+
 turn <number> [degrees]: 
 	user.drive_along_curve(number)
 
+flip: user.racer_flip_turn_direction()
 
 drive <number_small> [point <digits>]:
 	number = "{number_small}.{digits}" or "{number_small}"
 	user.drive_forward_x_seconds(number)
 
+radius <number_small>: 
+	user.set_turning_radius(number_small)
 
 radius up <number_small>: 
 	user.increase_turning_radius(number_small)
